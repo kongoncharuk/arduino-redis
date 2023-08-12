@@ -700,6 +700,14 @@ RedisSubscribeResult Redis::startSubscribingNonBlocking(RedisMsgCallback message
       continue;
     }
 
+    for (int i = 0; i < 3; i++) {
+      if (msgVec[i].length() > 3) {
+        msgVec[i] = msgVec[i].substring(3);
+      }
+    }
+
+    // Serial.println("=> " + String(msgVec[0]) + String(msgVec[1]) + String(msgVec[2]));
+
     if (msgVec[0] != "message" && msgVec[0] != "pmessage")
     {
       emitErr(RedisMessageUnknownType);
